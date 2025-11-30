@@ -1,0 +1,42 @@
+# Ignorar archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Dependencias
+node_modules/
+package-lock.json
+
+# Variables de entorno
+.env
+.env.local
+.env.*.local
+
+# Archivos subidos (no versionar en git)
+uploads/*
+!uploads/.gitkeep
+
+# Archivos de IDEs
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+
+# Build
+dist/
+build/
+
+# Testing
+coverage/
+
+# Temporary
+tmp/
+temp/

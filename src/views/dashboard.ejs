@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - KPI Gaming</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <h1>KPI Gaming - Visuales</h1>
+    </div>
+    <div class="navbar-actions">
+      <span class="user-email"><%= user.email %></span>
+      <form action="/logout" method="POST" style="display: inline;">
+        <button type="submit" class="btn btn-secondary btn-sm">Cerrar Sesión</button>
+      </form>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="tabs">
+      <button class="tab-button active" data-tab="creatives">Creatividades</button>
+      <button class="tab-button" data-tab="creators">Creadores</button>
+    </div>
+
+    <!-- Tab Creatividades -->
+    <div id="creatives-tab" class="tab-content active">
+      <div class="section-header">
+        <h2>Creatividades</h2>
+        <button class="btn btn-primary" onclick="openCreativeModal()">+ Nueva Creatividad</button>
+      </div>
+
+      <div class="alert alert-info">
+        <strong>💡 Consejo:</strong> Cada creatividad genera un enlace único de OBS que puedes compartir con los creadores asignados.
+      </div>
+
+      <div id="creatives-list" class="cards-grid">
+        <!-- Se llenará dinámicamente -->
+      </div>
+    </div>
+
+    <!-- Tab Creadores -->
+    <div id="creators-tab" class="tab-content">
+      <div class="section-header">
+        <h2>Creadores de Contenido</h2>
+        <button class="btn btn-primary" onclick="openCreatorModal()">+ Nuevo Creador</button>
+      </div>
+
+      <div id="creators-list" class="table-container">
+        <!-- Se llenará dinámicamente -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Creatividad -->
+  <div id="creative-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="creative-modal-title">Nueva Creatividad</h3>
+        <button class="modal-close" onclick="closeCreativeModal()">&times;</button>
+      </div>
+      <form id="creative-form" enctype="multipart/form-data">
+        <input type="hidden" id="creative-id" name="id">
+        
+        <div class="form-group">
+          <label for="creative-name">Nombre *</label>
+          <input type="text" id="creative-name" name="name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="creative-description">Descripción</label>
+          <textarea id="creative-description" name="description" rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="creative-file">Archivo (Video/Imagen) *</label>
+          <input type="file" id="creative-file" name="file" accept="video/*,image/*">
+          <small>Formatos: MP4, WebM, JPG, PNG, GIF, WebP (máx. 100MB)</small>
+          <div id="current-file-info" style="margin-top: 10px;"></div>
+        </div>
+
+        <div class="form-group">
+          <label>Creadores Asignados</label>
+          <div id="creator-checkboxes" class="checkbox-group">
+            <!-- Se llenará dinámicamente -->
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" onclick="closeCreativeModal()">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Creador -->
+  <div id="creator-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="creator-modal-title">Nuevo Creador</h3>
+        <button class="modal-close" onclick="closeCreatorModal()">&times;</button>
+      </div>
+      <form id="creator-form">
+        <input type="hidden" id="creator-id" name="id">
+        
+        <div class="form-group">
+          <label for="creator-name">Nombre *</label>
+          <input type="text" id="creator-name" name="name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="creator-twitch">Usuario de Twitch</label>
+          <input type="text" id="creator-twitch" name="twitch_username">
+        </div>
+
+        <div class="form-group">
+          <label for="creator-notes">Notas</label>
+          <textarea id="creator-notes" name="notes" rows="3"></textarea>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" onclick="closeCreatorModal()">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>
