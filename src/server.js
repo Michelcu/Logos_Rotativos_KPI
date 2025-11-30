@@ -5,8 +5,19 @@ const pgSession = require('connect-pg-simple')(session);
 const path = require('path');
 const config = require('./config');
 const pool = require('./database/connection');
+const migrate = require('./database/migrate');
 
 const app = express();
+
+// Ejecutar migraciones al iniciar
+(async () => {
+  try {
+    await migrate();
+    console.log('✅ Migraciones completadas');
+  } catch (error) {
+    console.error('❌ Error en migraciones:', error);
+  }
+})();
 
 // Configuración de vistas
 app.set('view engine', 'ejs');
