@@ -30,7 +30,8 @@ app.use(session({
   cookie: {
     maxAge: config.session.maxAge,
     httpOnly: true,
-    secure: config.server.nodeEnv === 'production'
+    secure: false, // Desactivar en Railway por problemas con proxy
+    sameSite: 'lax'
   }
 }));
 
