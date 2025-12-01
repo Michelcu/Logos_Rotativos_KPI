@@ -89,7 +89,10 @@ async function migrate() {
     throw error;
   } finally {
     client.release();
-    await pool.end();
+    // No cerrar el pool en producción, solo cuando se ejecuta directamente
+    if (require.main === module) {
+      await pool.end();
+    }
   }
 }
 

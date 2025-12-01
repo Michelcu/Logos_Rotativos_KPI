@@ -9,16 +9,6 @@ const migrate = require('./database/migrate');
 
 const app = express();
 
-// Ejecutar migraciones al iniciar
-(async () => {
-  try {
-    await migrate();
-    console.log('✅ Migraciones completadas');
-  } catch (error) {
-    console.error('❌ Error en migraciones:', error);
-  }
-})();
-
 // Configuración de vistas
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -73,10 +63,27 @@ app.use((req, res) => {
   res.status(404).send('Página no encontrada');
 });
 
+// Función para iniciar el servidor
+async function startServer() {
+  try {
+    // Ejecutar migraciones primero
+    console.log('📊 Ejecutando migraciones de base de datos...');
+    await migrate();
+    console.log('✅ Base de datos lista');
+
+    // Iniciar servidor
+    const PORT = config.server.port;
+    app.listen(PORT, () => {
+      console.log(`🚀 Servidor corriendo en puerto ${PORT}`);
+      console.log(`📊 Panel admin: /dashboard`);
+      console.log(`🎥 OBS links: /obs/{code}`);
+      console.log(`🌍 Environment: ${config.server.nodeEnv}`);
+    });
+  } catch (error) {
+    console.error('❌ Error al iniciar servidor:', error);
+    process.exit(1);
+  }
+}
+
 // Iniciar servidor
-const PORT = config.server.port;
-app.listen(PORT, () => {
-  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
-  console.log(`📊 Panel admin: http://localhost:${PORT}/dashboard`);
-  console.log(`🎥 OBS links: http://localhost:${PORT}/obs/{code}`);
-});
+startServer();
